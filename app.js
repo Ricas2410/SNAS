@@ -1,8 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const { sequelize } = require('./models');
+const { Sequelize } = require('sequelize'); // Use Sequelize directly if needed
 const helmet = require('helmet');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
-  secret: 'your-secret-key',
+  secret: process.env.SESSION_SECRET || 'your-secret-key', // Use environment variable for session secret
   resave: false,
   saveUninitialized: false,
   cookie: { 
@@ -40,8 +41,6 @@ app.use('/', require('./routes/user'));
 app.use('/notifications', require('./routes/notifications'));
 app.use('/support', require('./routes/support'));
 
-
-
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -54,8 +53,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-
+// Security middleware (Helmet)
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -68,7 +66,21 @@ app.use(helmet({
     },
 }));
 
+// Initialize Sequelize for PostgreSQL
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // Required for secure connections to PostgreSQL on Render
+    }
+  }
+});
+
+// Sync the database and start the server
 sequelize.sync({ logging: console.log }).then(() => {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }).catch(error => {
   console.error('Unable to sync database:', error);

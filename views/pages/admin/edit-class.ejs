@@ -1,0 +1,53 @@
+<%- include('../../partials/header', {title: 'Edit Class'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>Edit Class</h1>
+
+<form action="/admin/class/edit/<%= classItem.id %>" method="POST">
+    <div class="form-group">
+        <label for="name">Class Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= classItem.name %>" required>
+    </div>
+    <div class="form-group">
+        <label for="teacherId">Assign Teacher</label>
+        <select class="form-control" id="teacherId" name="teacherId">
+            <option value="">Select a teacher</option>
+            <% teachers.forEach(function(teacher) { %>
+                <option value="<%= teacher.id %>" <%= classItem.teacherId === teacher.id ? 'selected' : '' %>><%= teacher.username %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="subjects">Assign Subjects</label>
+        <select multiple class="form-control" id="subjects" name="subjects[]">
+            <% subjects.forEach(function(subject) { %>
+                <option value="<%= subject.id %>" <%= selectedSubjects.includes(subject.id) ? 'selected' : '' %>><%= subject.name %></option>
+            <% }); %>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Class</button>
+</form>
+
+<a href="/admin/classes" class="btn btn-secondary mt-3">Back to Classes</a>
+
+<%- include('../../partials/footer') %>
+</div>

@@ -1,0 +1,35 @@
+<%- include('../../partials/header', {title: 'Edit Subject'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="dashboard-container container">
+<h1>Edit Subject</h1>
+
+<form action="/admin/subject/edit/<%= subject.id %>" method="POST">
+    <div class="form-group">
+        <label for="name">Subject Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= subject.name %>" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Subject</button>
+</form>
+
+<a href="/admin/subjects" class="btn btn-secondary mt-3">Back to Subjects</a>
+
+<%- include('../../partials/footer') %>
+</div>

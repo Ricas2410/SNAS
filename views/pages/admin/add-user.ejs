@@ -1,0 +1,70 @@
+<%- include('../../partials/header', {title: 'Add User'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="dashboard-container container">
+    <h1>Add New User</h1>
+
+    <form action="/admin/user/add" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="headteacher">Headteacher</option>
+            </select>
+        </div>
+        <div class="form-group" id="classSelection" style="display: none;">
+            <label for="classId">Assign Class</label>
+            <select class="form-control" id="classId" name="classId">
+                <option value="">Select a class</option>
+                <% classes.forEach(function(classItem) { %>
+                    <option value="<%= classItem.id %>"><%= classItem.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add User</button>
+    </form>
+
+    <a href="/admin/users" class="btn btn-secondary mt-3">Back to Users</a>
+
+    <script>
+        document.getElementById('role').addEventListener('change', function() {
+            var classSelection = document.getElementById('classSelection');
+            if (this.value === 'teacher') {
+                classSelection.style.display = 'block';
+            } else {
+                classSelection.style.display = 'none';
+            }
+        });
+    </script>
+
+    <%- include('../../partials/footer') %>
+</div>

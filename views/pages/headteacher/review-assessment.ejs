@@ -1,0 +1,109 @@
+<%- include('../../partials/header', {title: 'Review Assessment'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+    <h1 class="text-center mb-4">Review Assessment for <%= assessment.Student.name %></h1>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            Week <%= assessment.weekNumber %> (<%= assessment.date.toISOString().split('T')[0] %>)
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Subject Assessments</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 40%">Subject</th>
+                        <th style="width: 60%">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% assessment.SubjectAssessments.forEach(function(subjectAssessment) { %>
+                        <tr>
+                            <td><%= subjectAssessment.Subject ? subjectAssessment.Subject.name : 'Unknown Subject' %></td>
+                            <td><%= subjectAssessment.comment %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5 class="card-title">Summary</h5>
+                    <p class="card-text"><%= assessment.summary %></p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="card-title">Headteacher's Comment</h5>
+                    <textarea class="form-control" id="headteacherComment" name="headteacherComment" rows="5"><%= assessment.headteacherComment || '' %></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <form action="/headteacher/assessment/<%= assessment.id %>/approve" method="POST" class="d-inline">
+            <input type="hidden" name="headteacherComment" id="hiddenHeadteacherComment">
+            <button type="submit" class="btn btn-success" onclick="setHeadteacherComment()">Approve</button>
+        </form>
+
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#requestChangesModal">
+            Request Changes
+        </button>
+
+        <a href="/headteacher/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="modal fade" id="requestChangesModal" tabindex="-1" role="dialog" aria-labelledby="requestChangesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestChangesModalLabel">Request Changes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/headteacher/assessment/<%= assessment.id %>/request-changes" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="changeRequest">Change Request:</label>
+                        <textarea class="form-control" id="changeRequest" name="changeRequest" rows="3" required></textarea>
+                    </div>
+                    <input type="hidden" name="headteacherComment" id="hiddenHeadteacherCommentModal">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="setHeadteacherCommentModal()">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function setHeadteacherComment() {
+    document.getElementById('hiddenHeadteacherComment').value = document.getElementById('headteacherComment').value;
+}
+
+function setHeadteacherCommentModal() {
+    document.getElementById('hiddenHeadteacherCommentModal').value = document.getElementById('headteacherComment').value;
+}
+</script>
+
+<%- include('../../partials/footer') %>

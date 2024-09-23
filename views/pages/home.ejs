@@ -1,0 +1,55 @@
+<%- include('../partials/header', { title: 'Home' }) %>
+
+
+<!-- Jumbotron Section -->
+<div class="jumbotron text-center" style="background-image: url('https://img-cdn.pixlr.com/image-generator/history/66e7490a925fb1390bb0f567/0f078234-361e-482b-a663-9017542126eb/preview.webp'); background-size: cover; background-position: center; color: white;">
+    <div class="container">
+        <h1 class="display-4 font-weight-bold">Welcome to the Academic Assessment System</h1>
+        <p class="lead">Streamlining assessment management for teachers, headteachers, and administrators.</p>
+        <hr class="my-4" style="border-color: white;">
+
+        <!-- Display login or dashboard link based on user's status -->
+        <% if (locals.user) { %>
+            <p class="font-weight-bold">Access your personalized dashboard:</p>
+            <% if (locals.user.role === 'teacher') { %>
+                <a class="btn btn-lg btn-primary" href="/teacher/dashboard" role="button">Go to Teacher Dashboard</a>
+            <% } else if (locals.user.role === 'headteacher') { %>
+                <a class="btn btn-lg btn-primary" href="/headteacher/dashboard" role="button">Go to Headteacher Dashboard</a>
+            <% } else if (locals.user.role === 'administrator') { %>
+                <a class="btn btn-lg btn-primary" href="/admin/dashboard" role="button">Go to Admin Dashboard</a>
+            <% } %>
+        <% } else { %>
+            <p class="font-weight-bold">Please login to access your personalized dashboard.</p>
+            <a class="btn btn-lg btn-primary" href="/auth/login" role="button">Login</a>
+        <% } %>
+    </div>
+</div>
+
+<!-- Info Cards Section -->
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI5fHx0ZWFjaGVyfGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=400" class="img-fluid  mb-3" alt="Teachers">
+            <h3>For Teachers</h3>
+            <p>Manage student assessments and track their progress efficiently through your dashboard.</p>
+        </div>
+        <div class="col-md-4">
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxOTkzMnwwfDF8c2VhcmNofDl8fG1hbmFnZXJ8ZW58MHx8fHwxNjE3OTc3NTk0&ixlib=rb-1.2.1&q=80&w=400" class="img-fluid  mb-3" alt="Headteachers">
+            <h3>For Headteachers</h3>
+            <p>Review and approve assessments with ease, and provide valuable feedback to teachers.</p>
+        </div>
+        <div class="col-md-4">
+            <img src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxOTkzMnwwfDF8c2VhcmNofDN8fGFkbWluJTIwb3ZlcnNleWV8ZW58MHx8fHx8MTYxNzk3ODk4Mw&ixlib=rb-1.2.1&q=80&w=400" class="img-fluid  mb-3" alt="Administrators">
+            <h3>For Administrators</h3>
+            <p>Ensure the smooth running of the system by managing users, subjects, and classes.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="container mt-5 text-center">
+    <h2>Join Us Today!</h2>
+    <p class="lead">Our platform is designed to make assessment management easy for all educational staff.</p>
+</div>
+
+<%- include('../partials/footer') %>

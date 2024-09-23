@@ -1,0 +1,40 @@
+<%- include('../../partials/header', {title: `Class: ${classItem.name}`}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>Class: <%= classItem.name %></h1>
+
+<h2>Students</h2>
+<ul class="list-group">
+    <% if (students && students.length > 0) { %>
+        <% students.forEach(function(student) { %>
+            <li class="list-group-item">
+                <a href="/teacher/student/<%= student.id %>"><%= student.name %></a>
+            </li>
+        <% }); %>
+    <% } else { %>
+        <li class="list-group-item">No students in this class.</li>
+    <% } %>
+</ul>
+
+
+<%- include('../../partials/footer') %>
+
+
+</div>

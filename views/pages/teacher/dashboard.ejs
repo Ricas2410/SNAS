@@ -1,0 +1,63 @@
+<%- include('../../partials/header', {title: 'Teacher Dashboard'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin:auto;
+        padding: 20px;
+        width: 650px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+
+<h2>Your Classes</h2>
+<ul class="list-group">
+    <% classes.forEach(function(class_) { %>
+        <li class="list-group-item">
+            <a href="/teacher/class/<%= class_.id %>"><%= class_.name %></a>
+        </li>
+    <% }); %>
+</ul>
+
+<h2>Pending Assessments</h2>
+<% if (pendingAssessments.length === 0) { %>
+    <p>No pending assessments.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% pendingAssessments.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <%= assessment.Student.name %> - Week <%= assessment.weekNumber %> 
+                (<%= assessment.date.toISOString().split('T')[0] %>)
+                <a href="/teacher/assessment/view/<%= assessment.id %>" class="btn btn-sm btn-primary">View</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<h2>Requested Changes</h2>
+<% if (assessmentsNeedingChanges.length === 0) { %>
+    <p>No assessments need changes.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% assessmentsNeedingChanges.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <%= assessment.Student.name %> - Week <%= assessment.weekNumber %> 
+                (<%= assessment.date.toISOString().split('T')[0] %>)
+                <a href="/teacher/assessment/edit/<%= assessment.id %>" class="btn btn-sm btn-warning">Edit</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<%- include('../../partials/footer') %>
+</div>

@@ -1,0 +1,52 @@
+<%- include('../../partials/header', {title: 'Add Class'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+
+    .form-container {
+        max-width: 600px; /* Maximum width for the form */
+        margin: 0 auto; /* Center the form */
+        padding: 20px; /* Padding around the form */
+        border: 1px solid #e0e0e0; /* Light border */
+        border-radius: 5px; /* Rounded corners */
+        background-color: #f8f9fa; /* Light background color */
+    }
+</style>
+<div class="dashboard-container container">
+    <div class="form-container">
+        <h1 class="text-center">Add New Class</h1>
+    
+        <form action="/admin/class/add" method="POST">
+            <div class="form-group">
+                <label for="name">Class Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="subjects">Assign Subjects</label>
+                <select multiple class="form-control" id="subjects" name="subjects[]">
+                    <% subjects.forEach(function(subject) { %>
+                        <option value="<%= subject.id %>"><%= subject.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Class</button>
+        </form>
+    
+        <a href="/admin/classes" class="btn btn-secondary mt-3">Back to Classes</a>
+    </div>
+    
+    <%- include('../../partials/footer') %>
+</div>

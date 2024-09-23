@@ -1,0 +1,19 @@
+#notificationList {
+  max-height: 300px;
+  overflow-y: auto;
+  width: 300px;
+}
+
+#notificationList .dropdown-item {
+  white-space: normal;
+  padding: 10px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+#notificationList .dropdown-item:last-child {
+  border-bottom: none;
+}
+
+#notificationList .dropdown-item.font-weight-bold {
+  background-color: #f8f9fa;
+}

@@ -1,0 +1,60 @@
+<%- include('../../partials/header', {title: title}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>Student: <%= student.name %></h1>
+
+<h2>Pending Assessments</h2>
+<% if (pendingAssessments.length === 0) { %>
+    <p>No pending assessments.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% pendingAssessments.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <a href="/headteacher/assessment/<%= assessment.id %>">
+                    Week <%= assessment.weekNumber %> 
+                    (<%= assessment.date ? assessment.date.toISOString().split('T')[0] : 'No date' %>) 
+                    - <%= assessment.Teacher ? assessment.Teacher.username : 'Unknown Teacher' %>
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<h2>Past Assessments</h2>
+<% if (pastAssessments.length === 0) { %>
+    <p>No past assessments.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% pastAssessments.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <a href="/headteacher/assessment/<%= assessment.id %>">
+                    Week <%= assessment.weekNumber %> 
+                    (<%= assessment.date ? assessment.date.toISOString().split('T')[0] : 'No date' %>) 
+                    - <%= assessment.Teacher ? assessment.Teacher.username : 'Unknown Teacher' %>
+                    - <%= assessment.status %>
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+
+<%- include('../../partials/footer') %>
+</div>

@@ -1,0 +1,53 @@
+<%- include('../../partials/header', {title: 'System Statistics'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>System Statistics</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="card-text display-4"><%= stats.totalUsers %></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Assessments</h5>
+                <p class="card-text display-4"><%= stats.totalAssessments %></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pending Reviews</h5>
+                <p class="card-text display-4"><%= stats.pendingReviews %></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/admin/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+
+<%- include('../../partials/footer') %>
+</div>

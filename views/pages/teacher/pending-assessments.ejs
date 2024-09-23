@@ -1,0 +1,42 @@
+<%- include('../../partials/header', {title: 'Pending Assessments'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin: auto; 
+        width: 650px;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="container">
+    <h1 class="mb-4">Pending Assessments</h1>
+
+    <% if (pendingAssessments.length === 0) { %>
+        <p class="alert alert-info">No pending assessments found.</p>
+    <% } else { %>
+        <div class="list-group">
+            <% pendingAssessments.forEach(function(assessment) { %>
+                <div class="list-group-item">
+                    <h5 class="mb-1"><%= assessment.Student.name %> - Week <%= assessment.weekNumber %></h5>
+                    <p class="mb-1"><strong>Date:</strong> <%= assessment.date.toLocaleDateString() %></p>
+                    <p class="mb-1"><strong>Status:</strong> <%= assessment.status %></p>
+                    <a href="/teacher/assessment/view/<%= assessment.id %>" class="btn btn-primary mt-2">View Assessment</a>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <a href="/teacher/dashboard" class="btn btn-secondary mt-4">Back to Dashboard</a>
+
+<%- include('../../partials/footer') %>
+</div>

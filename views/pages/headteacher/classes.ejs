@@ -1,0 +1,47 @@
+<%- include('../../partials/header', { title: 'All Classes' }) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+  .container {
+      margin-left: 250px; /* Same width as the sidebar */
+      padding: 20px;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+      .container {
+          margin-left: 0; /* Remove margin for small screens */
+      }
+  }
+  
+</style>
+
+<div class="container">
+    <h1>All Classes</h1>
+    <% if (classes.length === 0) { %>
+        <p>No classes found.</p>
+    <% } else { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Number of Students</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% classes.forEach(function(classItem) { %>
+                    <tr>
+                        <td><%= classItem.name %></td>
+                        <td><%= classItem.Students.length %></td>
+                        <td>
+                            <a href="/headteacher/class/<%= classItem.id %>" class="btn btn-primary">View Details</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+
+<%- include('../../partials/footer') %>

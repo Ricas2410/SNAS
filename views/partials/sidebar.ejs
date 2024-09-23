@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Internal CSS for Sidebar */
+        .sidebar {
+          margin-top: 70px;
+          margin-right: 100px;
+            width: 250px;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            transition: width 0.3s;
+            z-index: 100; /* Ensure sidebar is on top */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .nav-item {
+            margin: 0;
+        }
+
+        .sidebar .nav-link {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #555;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #444;
+        }
+        .welcome{
+            margin-top: 15px;
+            color: #f8f6f3;
+            padding: 10px;
+            text-decoration: underline rgb(240, 158, 6) 3px;
+        }
+        
+
+        /* For smaller screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .sidebar ul {
+                display: flex;
+                flex-direction: column;
+            }
+            .sidebar .nav-link {
+                border-bottom: 1px solid #444;
+            }
+        }
+
+        /* Ensure main content is not covered */
+        .main-content {
+            margin-left: 250px; /* adjust based on sidebar width */
+            padding: 20px;
+            transition: margin-left 0.3s;
+            /* Add padding to the top to accommodate the header */
+            padding-top: 60px; /* Adjust as needed */
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <!-- Common Links for All Roles -->
+            <h2 class="welcome">Welcome,  <%= user.username %></h2>
+            <li class="nav-item">
+                <a class="nav-link" href="/<%= role %>/dashboard">Dashboard</a>
+            </li>
+
+            <!-- Admin Specific Links -->
+            <% if (role === 'admin') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/users">User Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/user/add">Add User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/archived-users">User Archives</a> <!-- New Link -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/classes">Class Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/class/add">Add Class</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/students">Student Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/student/add">Add Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/subjects">Subject Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/subject/add">Add Subject</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/statistics">Statistics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/activity-logs">Activity Logs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/backup-restore">Backup/Restore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/reports">Reports</a>
+                </li>
+            <% } %>
+
+            <!-- Headteacher Specific Links -->
+            <% if (role === 'headteacher') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/classes">View Classes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/students">View Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/past-assessments">Past Assessments</a>
+                </li>
+            <% } %>
+
+            <!-- Teacher Specific Links -->
+            <% if (role === 'teacher') { %>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/pending-assessments">Pending Assessments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/assessments-needing-changes">Requested Changes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/class/:id">Help</a>
+                </li>
+                
+            <% } %>
+        </ul>
+    </div>
+    <div class="main-content">
+        <!-- Your page content goes here -->
+    </div>
+    <script>
+        // JavaScript to handle sidebar interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<%- include('../../partials/header', {title: 'Headteacher Dashboard'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+
+<h1>Welcome, Headteacher <%= user.username %></h1>
+
+<h2>Classes</h2>
+<ul class="list-group">
+    <% classes.forEach(function(class_) { %>
+        <li class="list-group-item">
+            <a href="/headteacher/class/<%= class_.id %>"><%= class_.name %></a>
+        </li>
+    <% }); %>
+</ul>
+
+<h2>Pending Assessments</h2>
+<% if (pendingAssessments.length === 0) { %>
+    <p>No pending assessments.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% pendingAssessments.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <%= assessment.Student ? assessment.Student.name : 'Unknown Student' %> - Week <%= assessment.weekNumber %> 
+                (<%= assessment.date ? assessment.date.toISOString().split('T')[0] : 'No date' %>) 
+                by <%= assessment.Teacher ? assessment.Teacher.username : 'Unknown Teacher' %>
+                <a href="/headteacher/assessment/<%= assessment.id %>" class="btn btn-sm btn-primary">Review</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown" id="notificationList">
+    <a class="dropdown-item" href="#">No new notifications</a>
+</div>
+
+<%- include('../../partials/footer') %>
+</div>

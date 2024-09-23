@@ -1,0 +1,48 @@
+<%- include('../../partials/header', {title: 'Edit Student'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="dashboard-container container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Edit Student</h1>
+
+            <form action="/admin/student/edit/<%= student.id %>" method="POST">
+                <div class="form-group">
+                    <label for="name">Student Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= student.name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="ClassId">Assign Class</label>
+                    <select class="form-control" id="ClassId" name="ClassId" required>
+                        <option value="">Select a class</option>
+                        <% classes.forEach(function(classItem) { %>
+                            <option value="<%= classItem.id %>" <%= student.ClassId === classItem.id ? 'selected' : '' %>><%= classItem.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Student</button>
+            </form>
+
+            <a href="/admin/students" class="btn btn-secondary btn-block mt-3">Back to Students</a>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

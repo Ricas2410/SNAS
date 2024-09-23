@@ -1,0 +1,119 @@
+<%- include('../../partials/header', {title: 'Admin Dashboard'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .dashboard-container {
+        max-width: 1200px; /* Maximum width for the container */
+        margin: 0 auto; /* Center the container */
+        padding: 20px; /* Padding around the container */
+    }
+
+    .card {
+        border: 1px solid #e0e0e0; /* Light border for cards */
+        border-radius: 5px; /* Rounded corners */
+        transition: box-shadow 0.3s; /* Smooth shadow transition */
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+    }
+
+    .card-title {
+        font-weight: bold; /* Bold titles */
+    }
+
+    /* Add this class to handle the left margin for sidebar */
+    .container {
+        margin-left: 270px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+</style>
+
+<div class="dashboard-container container">
+    <h1 class="text-center">Welcome, Admin <%= user.fullName %></h1>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Management</h5>
+                    <p class="card-text">Manage system users, including teachers, headteachers, and admins.</p>
+                    <a href="/admin/users" class="btn btn-primary">Manage Users</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Class Management</h5>
+                    <p class="card-text">Manage classes and assign teachers.</p>
+                    <a href="/admin/classes" class="btn btn-primary">Manage Classes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Student Management</h5>
+                    <p class="card-text">Manage students and assign them to classes.</p>
+                    <a href="/admin/students" class="btn btn-primary">Manage Students</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Subject Management</h5>
+                    <p class="card-text">Manage subjects and assign them to classes.</p>
+                    <a href="/admin/subjects" class="btn btn-primary">Manage Subjects</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">System Statistics</h5>
+                    <p class="card-text">View system-wide statistics and reports.</p>
+                    <a href="/admin/statistics" class="btn btn-primary">View Statistics</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Activity Logs</h5>
+                    <p class="card-text">View user activity logs.</p>
+                    <a href="/admin/activity-logs" class="btn btn-primary">View Logs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Backup/Restore</h5>
+                    <p class="card-text">Backup and restore system data.</p>
+                    <a href="/admin/backup-restore" class="btn btn-primary">Backup/Restore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Generate Reports</h5>
+                    <p class="card-text">Generate various system reports.</p>
+                    <a href="/admin/reports" class="btn btn-primary">Generate Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

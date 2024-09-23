@@ -1,0 +1,54 @@
+<%- include('../../partials/header', {title: 'User Activity Logs'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+
+    .table-container {
+        max-width: 1200px; /* Maximum width for the table */
+        margin: 0 auto; /* Center the table */
+        padding: 20px; /* Padding around the table */
+        background-color: #f8f9fa; /* Light background color */
+        border-radius: 5px; /* Rounded corners */
+        border: 1px solid #e0e0e0; /* Light border */
+    }
+</style>
+<div class="dashboard-container container">
+    <div class="table-container">
+        <h1 class="text-center">User Activity Logs</h1>
+    
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% logs.forEach(function(log) { %>
+                    <tr>
+                        <td><%= log.timestamp %></td>
+                        <td><%= log.username %></td>
+                        <td><%= log.action %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    
+        <a href="/admin/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+    </div>
+    
+    <%- include('../../partials/footer') %>
+
+</div>

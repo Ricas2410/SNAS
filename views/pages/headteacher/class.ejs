@@ -1,0 +1,37 @@
+<%- include('../../partials/header', {title: title}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+
+<div class="dashboard-container container">
+    <h1><%= classItem.name %></h1>
+
+<h2>Students</h2>
+<ul class="list-group">
+    <% students.forEach(function(student) { %>
+        <li class="list-group-item">
+            <a href="/headteacher/student/<%= student.id %>"><%= student.name %></a>
+        </li>
+    <% }); %>
+</ul>
+
+<button onclick="goBack()" class="btn btn-secondary mt-3">Back</button>
+
+<%- include('../../partials/footer') %>
+</div>
+

@@ -1,0 +1,83 @@
+<%- include('../../partials/header', {title: 'Manage Students'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+
+    .icon-btn {
+        background: none;
+        border: none;
+        color: #dc3545; /* Red color for the delete icon */
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .edit-link {
+        text-decoration: none;
+        color: #444; /* Color for edit link */
+    }
+
+    .edit-link:hover {
+        color: #333;
+    }
+</style>
+
+<div class="dashboard-container container">
+    <h1 class="text-center mb-4">Manage Students</h1>
+
+    <div class="text-center mb-3">
+        <a href="/admin/student/add" class="btn btn-primary">Add New Student</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% students.forEach(function(student) { %>
+                    <tr>
+                        <td><%= student.id %></td>
+                        <td>
+                            <a href="/admin/student/edit/<%= student.id %>" class="edit-link">
+                                <%= student.name %>
+                            </a>
+                        </td>
+                        <td><%= student.Class ? student.Class.name : 'Not Assigned' %></td>
+                        <td>
+                            <a href="/admin/student/edit/<%= student.id %>" class="icon-btn1">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="/admin/student/delete/<%= student.id %>" method="POST" class="d-inline">
+                                <button type="submit" class="icon-btn" onclick="return confirm('Are you sure you want to delete this student?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+<%- include('../../partials/footer') %>

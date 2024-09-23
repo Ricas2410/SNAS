@@ -1,0 +1,41 @@
+<%- include('../../partials/header', {title: 'Assessments Needing Changes'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin: auto; 
+        width: 650px;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>Assessments Needing Changes</h1>
+
+<% if (assessments.length === 0) { %>
+    <p>No assessments currently need changes.</p>
+<% } else { %>
+    <ul class="list-group">
+        <% assessments.forEach(function(assessment) { %>
+            <li class="list-group-item">
+                <h5><%= assessment.studentName %> - Week <%= assessment.weekNumber %> (<%= assessment.date %>)</h5>
+                <p><strong>Change Request:</strong> <%= assessment.changeRequest %></p>
+                <a href="/teacher/edit-assessment/<%= assessment.id %>" class="btn btn-primary">Edit Assessment</a>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<a href="/teacher/dashboard" class="btn btn-secondary mt-3">Back</a>
+
+<%- include('../../partials/footer') %>
+</div>

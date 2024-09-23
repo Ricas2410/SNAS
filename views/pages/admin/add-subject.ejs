@@ -1,0 +1,36 @@
+<%- include('../../partials/header', {title: 'Add Subject'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+    .container {
+        margin:auto;
+        width: 50%;
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; 
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="dashboard-container container">
+    <h1>Add New Subject</h1>
+
+<form action="/admin/subject/add" method="POST">
+    <div class="form-group">
+        <label for="name">Subject Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <a href="/admin/subjects" class="btn btn-secondary mt-2">Back</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+
+
+
+<%- include('../../partials/footer') %>
+</div>

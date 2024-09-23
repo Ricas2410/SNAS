@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Academic Assessment System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/notifications.css">
+    <!-- jQuery full version -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Improve the appearance of the header */
+        .navbar {
+            background-color: #333; /* Updated background color */
+            padding: 10px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #fff !important;
+        }
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ccc; /* Light grey on hover */
+        }
+        .navbar-nav .dropdown-menu {
+            min-width: 180px;
+        }
+        .nav-link img {
+            margin-right: 5px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+        }
+        .badge-primary {
+            background-color: #007bff;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            margin-top: 70px;
+            margin-right: 100px;
+            width: 250px;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            transition: width 0.3s;
+            z-index: 100; /* Ensure sidebar is on top */
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .nav-item {
+            margin: 0;
+        }
+
+        .sidebar .nav-link {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #555;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #444;
+        }
+
+        /* Ensure main content is not covered */
+        .main-content {
+            margin-left: 250px; /* adjust based on sidebar width */
+            padding: 20px;
+            transition: margin-left 0.3s;
+            padding-top: 60px; /* Adjust as needed */
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .sidebar ul {
+                display: flex;
+                flex-direction: column;
+            }
+            .sidebar .nav-link {
+                border-bottom: 1px solid #444;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body data-user-role="<%= locals.user ? locals.user.role : '' %>" data-user-id="<%= locals.user ? locals.user.id : '' %>">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <a class="navbar-brand" href="/">
+            <img src="/images/logo.png" alt="Logo" class="d-inline-block align-top rounded-circle" width="40">
+            Academic Assessment System
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <% if (locals.user) { %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bell"></i> <span class="badge badge-pill badge-primary" id="notificationCount">0</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown" id="notificationList">
+                            <a class="dropdown-item" href="#">No new notifications</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="<%= locals.user.profilePhoto ? locals.user.profilePhoto : 'https://via.placeholder.com/40' %>" class="rounded-circle" alt="User" width="30" height="30"> 
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/auth/logout">Logout</a>
+                        </div>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/login">Login</a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <!-- Common Links for All Roles -->
+            <li class="nav-item">
+                <a class="nav-link" href="/<%= locals.user.role %>/dashboard">Dashboard</a>
+            </li>
+
+            <!-- Admin Specific Links -->
+            <% if (locals.user.role === 'admin') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/users">User Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/user/add">Add User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/classes">Class Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/class/add">Add Class</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/students">Student Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/student/add">Add Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/subjects">Subject Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/subject/add">Add Subject</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/statistics">Statistics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/activity-logs">Activity Logs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/backup-restore">Backup/Restore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/reports">Reports</a>
+                </li>
+            <% } %>
+
+            <!-- Headteacher Specific Links -->
+            <% if (locals.user.role === 'headteacher') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/class/:id">View Class</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/student/:id">View Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/assessment/:id">Review Assessment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/assessment/approve/:id">Approve Assessment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/headteacher/assessment/request-changes/:id">Request Changes</a>
+                </li>
+            <% } %>
+
+            <!-- Teacher Specific Links -->
+            <% if (locals.user.role === 'teacher') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/class/:id">My Class</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/assessments">Manage Assessments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/assessment/create">Create Assessment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/assessment/review">Review Past Assessments</a>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <%- body %>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 Academic Assessment System. All Rights Reserved.</span>
+        </div>
+    </footer>
+    
+    <script src="/js/notifications.js"></script>
+</body>
+</html>

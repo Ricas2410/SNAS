@@ -1,0 +1,34 @@
+<%- include('../../partials/header', {title: `Student: ${student.name}`}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+    
+</style>
+
+<div class="dashboard-container container">
+<h1>Student: <%= student.name %></h1>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a href="/teacher/assessment/new/<%= student.id %>" class="btn btn-primary">New Assessment</a>
+    </div>
+    <div class="col-md-6">
+        <a href="/teacher/assessment/past/<%= student.id %>" class="btn btn-secondary">Past Assessments</a>
+    </div>
+</div>
+
+
+<%- include('../../partials/footer') %>
+</div>

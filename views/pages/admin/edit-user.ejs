@@ -1,0 +1,121 @@
+<%- include('../../partials/header', {title: 'Edit User'}) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+
+<style>
+    .container {
+        margin-left: 250px; /* Same width as the sidebar */
+        padding: 20px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Remove margin for small screens */
+        }
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 200px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .dropdown-content label {
+        display: block;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .dropdown-content label:hover {
+        background-color: #f1f1f1;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<div class="dashboard-container container">
+<h1>Edit User</h1>
+
+<form action="/admin/user/edit/<%= user.id %>" method="POST">
+    <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" value="<%= user.fullName %>" required>
+    </div>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" required>
+    </div>
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select class="form-control" id="role" name="role" required>
+            <% roles.forEach(function(role) { %>
+                <option value="<%= role %>" <%= user.role === role ? 'selected' : '' %>><%= role %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div id="classSelection" class="form-group" style="display: <%= user.role === 'teacher' ? 'block' : 'none' %>;">
+        <label for="classIds">Assign Classes</label>
+        <div class="dropdown">
+            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+                Select Classes
+            </button>
+            <div class="dropdown-content" id="classDropdown">
+                <% classes.forEach(function(class_) { %>
+                    <label>
+                        <input type="checkbox" name="classIds" value="<%= class_.id %>" 
+                        <%= user.Classes && user.Classes.some(c => c.id === class_.id) ? 'checked' : '' %> >
+                        <%= class_.name %>
+                    </label>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Update User</button>
+</form>
+
+<a href="/admin/users" class="btn btn-secondary mt-3">Back to Users</a>
+
+<script>
+    document.getElementById('role').addEventListener('change', function() {
+        var classSelection = document.getElementById('classSelection');
+        if (this.value === 'teacher') {
+            classSelection.style.display = 'block';
+        } else {
+            classSelection.style.display = 'none';
+        }
+    });
+
+    // Dropdown functionality
+    document.getElementById('dropdownMenuButton').addEventListener('click', function() {
+        document.getElementById('classDropdown').classList.toggle('show');
+    });
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropdown-toggle')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
+<%- include('../../partials/footer') %>
+</div>

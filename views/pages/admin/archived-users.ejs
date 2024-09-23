@@ -1,0 +1,49 @@
+<%- include('../../partials/header', { title: 'Archived Users' }) %>
+<%- include('../../partials/sidebar', { user: user, role: user.role }) %>
+
+<style>
+  .container {
+    margin-left: 270px; /* Same width as the sidebar */
+    padding: 20px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 0; /* Remove margin for small screens */
+    }
+}
+</style>
+
+<div class="dashboard-container container">
+    <h1>Archived Users</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% archivedUsers.forEach(function(user) { %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.username %></td>
+                <td><%= user.fullName %></td>
+                <td><%= user.role %></td>
+                <td>
+                    <form action="/admin/user/restore/<%= user.id %>" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/admin/users" class="btn btn-secondary mt-3">Back to Users</a>
+</div>
+
+<%- include('../../partials/footer') %>
